@@ -19,7 +19,8 @@
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
     "db:reset": "drizzle-kit reset",
-    "verify": "pnpm typecheck && pnpm test:run && pnpm check"
+    "verify:frontend": "pnpm typecheck && pnpm check",
+    "verify:backend": "pnpm typecheck && pnpm test:run && pnpm check"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
