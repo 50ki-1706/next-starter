@@ -21,6 +21,7 @@ This is a starter template for monorepo projects using Next.js. It includes a se
 
 - **Node.js** 22+ (node24 by default)
 - **pnpm** 11+ 
+- **cocogitto** (via mise: `mise install`, or via cargo: `cargo install cocogitto`, or via brew: `brew install cocogitto`)
 Use `corepack enable pnpm` and `pnpm install`
 If you use node25+, install corepack globally with `npm install -g corepack` first.
 
@@ -30,7 +31,18 @@ If you use node25+, install corepack globally with `npm install -g corepack` fir
     cd <cloned-directory>
     pnpm install
 
-### 2. Environment Variables
+### 2. Commit Convention Setup
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
+Commit messages are validated locally via [cocogitto](https://docs.cocogitto.io/).
+
+Run the setup script to install the commit-msg hook:
+
+    bash scripts/setup.sh
+
+This needs to be done once after cloning. The hook validates commit messages against `cog.toml` at commit time, so no re-run is needed when `cog.toml` is updated. Re-run only if you need to reinstall the hook (e.g., after deleting it).
+
+### 3. Environment Variables
 
     cp .env.local.example .env.local
 
@@ -44,7 +56,7 @@ Edit `.env.local` and set the following variables:
 | `BETTER_AUTH_URL` | No | Base URL of the app. Default: `http://localhost:3000` |
 | `DATABASE_URL` | No | Database connection string. Default: `file:local.db` (SQLite) |
 
-### 3. Database Setup
+### 4. Database Setup
 
     pnpm db:push
 
@@ -55,7 +67,7 @@ For version-controlled migrations, use:
     pnpm db:generate
     pnpm db:migrate
 
-### 4. Start Development
+### 5. Start Development
 
     pnpm dev
 
