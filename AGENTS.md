@@ -3,15 +3,12 @@
 - コロケーションを重視すること
 - docs/以下にドキュメントがあるので必要なときに参照すること。ファイル名で判断すること。追加するときはファイル名をわかりやすくつけること。
 - ADRを書くこと（docs/adr以下に）。設計上の重要な判断をしたときは必ず書くこと。書くべきか迷う場合はユーザーに確認すること。append-onlyで、過去の内容は変更しないこと。
-<!-- BEGIN:common-agent-rules -->
-- KISS, DRY, YAGNI を守る
-- コロケーションを重視すること
-- docs/以下にドキュメントがあるので必要なときに参照すること。ファイル名で判断すること。追加するときはファイル名をわかりやすくつけること。
-- ADRを書くこと（docs/adr以下に）。設計上の重要な判断をしたときは必ず書くこと。書くべきか迷う場合はユーザーに確認すること。append-onlyで、過去の内容は変更しないこと。
 - フロントエンドはテストコードを書かないでください。
 - バックエンドはテストコードを書いてください。
 - コードを実装した後は、必ず`verify`スキルを使用してコードが正しく動作し、必要な基準を満たしていることを確認してください。
 - スクリプトを実行する際は`&&`は使用せず、1つずつ実行してください。
+- 定数は`src/constants/`以下に定義してください。
+- 共通の処理は、`src/shared/`以下に定義してください.
 
 ## 許可スクリプト
 スクリプトはpackage.jsonに書かれているものだけ使用してください。これにより、プロジェクトの一貫性が保たれ、予期しない問題を防ぐことができます。
@@ -43,11 +40,16 @@
 - TSDoc を書くこと（ts, tsxともに必須。@param, @returnsなど）
 - すべての .ts / .tsx ファイルの冒頭に、そのファイルの役割・責務を2行程度で記述する、
 <!-- END:typescript-agent-rules -->
-
+- 各ページのエントリファイル(page.tsx)には、ロジックを直接書かず。`src/hooks/`以下にカスタムフックを作製すること。
+- 共通のUIコンポーネントは、`src/shared/components/`以下に作成すること。
+<!-- BEGIN:react-agent-rules -->
+- 
+<!-- END:react-agent-rules -->
 <!-- BEGIN:nextjs-agent-rules -->
  
 # Next.js: ALWAYS read docs before coding
  
 Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
  
+- APIは、Controller,Service.Repository,Modelの4層を意識して書くこと。
 <!-- END:nextjs-agent-rules -->
