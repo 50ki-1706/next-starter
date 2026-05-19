@@ -9,8 +9,10 @@ This is a starter template for monorepo projects using Next.js. It includes a se
 - [BetterAuth](https://better-auth.com) A simple and secure authentication library for Next.js.
 - [Tailwind CSS](https://tailwindcss.com/) A utility-first CSS framework for rapid UI development.
 - [orpc](https://orpc.dev) A type-safe, OpenAPI-compatible RPC framework for Next.js.
+- [zod](https://zod.dev/) A TypeScript-first schema validation library.
 - [Drizzle ORM](https://orm.drizzle.team/) A TypeScript ORM for SQL databases.
 - [SQLite](https://www.sqlite.org/index.html) A lightweight, file-based SQL database.
+- [Vitest](https://vitest.dev/) A blazing fast unit test framework powered by Vite.
 - [Storybook](https://storybook.js.org/) A tool for developing UI components in isolation.
 - Experimental support for tsgo for type checking.
 
