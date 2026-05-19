@@ -1,15 +1,20 @@
 -----
 title: verify
-description: Must do after implement code.
+description: Run the appropriate verification script after code changes.
 -----
 
 ## What I do
 
-- Execute script `pnpm verify:frontend` or `pnpm verify:backend` in package.json.
-- Propose to ensure that the code is working correctly and meets the required standards.
+- Run `pnpm verify:frontend` when the change is limited to frontend code.
+- Run `pnpm verify` for any other application code change.
+- Do not run for changes that only touch `ci.yaml` or documentation files.
 
 ## When to use me
 
-If you have implemented frontend code, execute `pnpm verify:frontend`.
-If you have implemented backend code, execute `pnpm verify:backend`.
-If you have implemented both frontend and backend code, execute `pnpm verify:backend`.
+- After adding or modifying application code.
+- Not after changes limited to `ci.yaml` or `docs/` and so on.
+
+## How I decide
+
+- If the change only affects frontend code, use `pnpm verify:frontend`.
+- Otherwise, use `pnpm verify`.
