@@ -5,10 +5,9 @@ set -euo pipefail
 
 # Check if cog is available
 if ! command -v cog &> /dev/null; then
-  echo "Error: cocogitto (cog) is not installed."
-  echo "Install it via mise: mise install"
-  echo "Or via cargo: cargo install cocogitto"
-  echo "Or via brew: brew install cocogitto"
+  echo "Error: cocogitto (cog) is not available."
+  echo "Run this script through Devbox: devbox run -- bash scripts/setup.sh"
+  echo "Or activate the Devbox shell first: devbox shell"
   exit 1
 fi
 

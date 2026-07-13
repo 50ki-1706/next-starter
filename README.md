@@ -1,6 +1,8 @@
 # next-starter
 
-This is a starter template for monorepo projects using Next.js. It includes a set of tools and configurations to help you get started quickly with building full-stack applications.
+[日本語](./README.ja.md)
+
+This is a Next.js full-stack starter template. It includes a set of tools and configurations to help you get started quickly with building full-stack applications.
 
 ## Features
 - [pnpm](https://pnpm.io/) A package manager that is fast and efficient.
@@ -14,6 +16,7 @@ This is a starter template for monorepo projects using Next.js. It includes a se
 - [SQLite](https://www.sqlite.org/index.html) A lightweight, file-based SQL database.
 - [Vitest](https://vitest.dev/) A blazing fast unit test framework powered by Vite.
 - [Storybook](https://storybook.js.org/) A tool for developing UI components in isolation.
+- [Devbox](https://www.jetify.com/devbox/) A reproducible development environment.
 - Experimental support for tsgo for type checking.
 
 
@@ -21,17 +24,82 @@ This is a starter template for monorepo projects using Next.js. It includes a se
 
 ### Prerequisites
 
-- **Node.js** 22+ (node24 by default)
-- **pnpm** 11+ 
-- **cocogitto** (via mise: `mise install`, or via cargo: `cargo install cocogitto`, or via brew: `brew install cocogitto`)
-Use `corepack enable pnpm` and `pnpm install`
-If you use node25+, install corepack globally with `npm install -g corepack` first.
+- [Devbox](https://www.jetify.com/devbox/docs/installing-devbox/)
+
+Node.js, pnpm, and cocogitto versions are declared in `devbox.json` and provided through Devbox:
+
+- **Node.js** 26.4.0
+- **pnpm** 11.1.2
+- **cocogitto** 7.0.0
+
+Verify the toolchain:
+
+    devbox run -- node --version
+    devbox run -- pnpm --version
+    devbox run -- cog --version
+
+### Devbox environment
+
+This project uses Devbox as its canonical toolchain. `devbox.json` pins Node.js, pnpm, and cocogitto, and the lock file is committed so every environment resolves the same package versions.
+
+Run commands through Devbox:
+
+    devbox run -- node --version
+    devbox run -- pnpm install
+    devbox run -- pnpm dev
+
+The Devbox shell provides the exact same Node.js, pnpm, and cocogitto versions on macOS and Linux.
+
+If you prefer an interactive shell, run `devbox shell` and then use `pnpm <script>` directly.
+
+### Dev Container (VS Code)
+
+The repository includes a project-provided Devbox-based Dev Container configuration for macOS and Linux hosts.
+
+1. Open the project in VS Code and run **Dev Containers: Reopen in Container** (or **Rebuild Container** if the container already exists).
+   The container uses the official `jetpackio/devbox` image, runs as the non-root `devbox` user, and installs dependencies automatically via `pnpm devcontainer:setup`.
+
+2. Inside the container, the same commands work:
+
+       pnpm dev
+       pnpm storybook
+
+#### Automatic Devbox activation
+
+Newly opened or rebuilt Dev Container terminals automatically load the Devbox toolchain.
+`configure-bash.sh` maintains a single guarded block in `/home/devbox/.bashrc` that evaluates `devbox shellenv` once per interactive shell and sets `NEXT_STARTER_DEVBOX_ENV_LOADED` to avoid duplicate work.
+
+No manual `devbox shell` is required for normal terminal use.
+
+#### Fallback commands
+
+If you prefer not to rely on the automatic `.bashrc` hook, or if you are outside the Dev Container, use:
+
+    devbox shell
+    # or
+    devbox run -- <command>
+
+For example:
+
+    devbox run -- pnpm dev
+    devbox run -- pnpm check
+
+#### Forwarded ports
+
+Only the following ports are forwarded by default:
+
+- `3000` for the Next.js development server
+- `6006` for Storybook
+
+#### Rebuilding
+
+After changing `devbox.json`, rebuild the container with **Dev Containers: Rebuild Container**. Commit the regenerated `devbox.lock` together with the config change.
 
 ### 1. Clone and Install
 
     git clone <repository-url>
     cd <cloned-directory>
-    pnpm install
+    devbox run -- pnpm install --frozen-lockfile
 
 ### 2. Commit Convention Setup
 
@@ -40,7 +108,7 @@ Commit messages are validated locally via [cocogitto](https://docs.cocogitto.io/
 
 Run the setup script to install the commit-msg hook:
 
-    bash scripts/setup.sh
+    devbox run -- bash scripts/setup.sh
 
 This needs to be done once after cloning. The hook validates commit messages against `cog.toml` at commit time, so no re-run is needed when `cog.toml` is updated. Re-run only if you need to reinstall the hook (e.g., after deleting it).
 
@@ -60,23 +128,23 @@ Edit `.env.local` and set the following variables:
 
 ### 4. Database Setup
 
-    pnpm db:push
+    devbox run -- pnpm db:push
 
 This creates `local.db` with all required tables.
 
 For version-controlled migrations, use:
 
-    pnpm db:generate
-    pnpm db:migrate
+    devbox run -- pnpm db:generate
+    devbox run -- pnpm db:migrate
 
 ### 5. Start Development
 
-    pnpm dev
+    devbox run -- pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Storybook for UI component development:
 
-    pnpm storybook
+    devbox run -- pnpm storybook
 
 Open [http://localhost:6006](http://localhost:6006).

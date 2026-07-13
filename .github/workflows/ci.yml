@@ -17,15 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
+      - name: Install Devbox
+        uses: jetify-com/devbox-install-action@8c6a66ed6273138b1915457069de78cb52fe3bd7
         with:
-          node-version: 24
-          cache: 'pnpm'
+          enable-cache: true
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: devbox run -- pnpm install --frozen-lockfile
 
-      - run: pnpm verify
+      - name: Verify
+        run: devbox run -- pnpm verify
 
-      - run: pnpm build
+      - name: Build
+        run: devbox run -- pnpm build
