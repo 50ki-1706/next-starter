@@ -16,6 +16,12 @@ HOOK_PATH=$(git rev-parse --git-path hooks/commit-msg)
 
 # Check if commit-msg hook already exists
 if [ -f "$HOOK_PATH" ]; then
+  # Idempotent fast path: an existing cocogitto hook is already in place.
+  if grep -q "cog verify" "$HOOK_PATH"; then
+    echo "cocogitto commit-msg hook already installed at $HOOK_PATH"
+    exit 0
+  fi
+
   echo "Warning: Existing commit-msg hook found at $HOOK_PATH"
   echo "This will be replaced with cocogitto's hook."
   echo ""
