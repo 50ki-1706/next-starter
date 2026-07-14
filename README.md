@@ -61,7 +61,7 @@ devbox run -- pnpm install --frozen-lockfile
 
 To use an interactive shell, run `devbox shell`, then run `pnpm <script>` directly.
 
-#### Using VS Code with the Devbox Extension (macOS / Linux)
+#### Using VS Code with the Devbox Extension (macOS / Linux)　(Recommended)
 
 1. Install the [Devbox extension](https://marketplace.visualstudio.com/items?itemName=jetpack-io.devbox).
 2. Run **Devbox: Reopen in Devbox shell environment** from the Command Palette.

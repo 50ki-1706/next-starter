@@ -61,7 +61,7 @@ devbox run -- pnpm install --frozen-lockfile
 
 対話型シェルを利用する場合は、`devbox shell` を実行した後、`pnpm <script>` を直接実行できます。
 
-#### VS Code と Devbox 拡張機能を使用する場合（macOS / Linux）
+#### VS Code と Devbox 拡張機能を使用する場合（macOS / Linux） (推奨)
 
 1. [Devbox 拡張機能](https://marketplace.visualstudio.com/items?itemName=jetpack-io.devbox)をインストールします。
 2. コマンドパレットから **Devbox: Reopen in Devbox shell environment** を実行します。
