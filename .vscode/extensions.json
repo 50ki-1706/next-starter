@@ -10,5 +10,6 @@
     "streetsidesoftware.code-spell-checker",
     "sst-dev.opencode",
     "yoavbls.pretty-ts-errors",
+    "jetpack-io.devbox",
   ]
 }

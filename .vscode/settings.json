@@ -18,5 +18,12 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "terminal.integrated.profiles.osx": {
+    "devboxCompatibleShell": {
+      "path": "/bin/zsh",
+      "args": []
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "devboxCompatibleShell"
 }

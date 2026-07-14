@@ -4,149 +4,152 @@
 
 [![Built with Devbox](https://www.jetify.com/img/devbox/shield_galaxy.svg)](https://www.jetify.com/devbox/docs/contributor-quickstart/)
 
-This is a Next.js full-stack starter template. It includes a set of tools and configurations to help you get started quickly with building full-stack applications.
+A starter template for building full-stack applications with Next.js. It includes the tools and configuration needed for the development environment, authentication, database, testing, and more.
 
-## Features
-- [pnpm](https://pnpm.io/) A package manager that is fast and efficient.
-- [Next.js 16](https://nextjs.org/) A React framework for building full-stack applications.
-- [Biome](https://biomejs.dev/) A fast and extensible code formatter and linter.
-- [BetterAuth](https://better-auth.com) A simple and secure authentication library for Next.js.
-- [Tailwind CSS](https://tailwindcss.com/) A utility-first CSS framework for rapid UI development.
-- [orpc](https://orpc.dev) A type-safe, OpenAPI-compatible RPC framework for Next.js.
-- [zod](https://zod.dev/) A TypeScript-first schema validation library.
-- [Drizzle ORM](https://orm.drizzle.team/) A TypeScript ORM for SQL databases.
-- [SQLite](https://www.sqlite.org/index.html) A lightweight, file-based SQL database.
-- [Vitest](https://vitest.dev/) A blazing fast unit test framework powered by Vite.
-- [Storybook](https://storybook.js.org/) A tool for developing UI components in isolation.
-- [Devbox](https://www.jetify.com/devbox/) A reproducible development environment.
-- Experimental support for tsgo for type checking.
+## Key Features
 
+### Runtime and Development Environment
 
-## Getting Started
+- [Node.js 26.4.0](https://nodejs.org/) — JavaScript runtime
+- [pnpm 11.1.2](https://pnpm.io/) — Fast, efficient package manager
+- [cocogitto 7.0.0](https://docs.cocogitto.io/) — Git hook tool for validating commit messages
+- [Devbox](https://www.jetify.com/devbox/) — Toolchain manager for reproducible development environments
+- [Dev Containers](https://containers.dev/) — A way to use containerized development environments in VS Code
+- [SQLite](https://www.sqlite.org/index.html) — Lightweight embedded SQL database
+
+### Frameworks and Libraries
+
+- [Next.js 16](https://nextjs.org/) — React framework for building full-stack applications
+- [Better Auth](https://better-auth.com) — Authentication library for TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
+- [oRPC](https://orpc.dev) — Type-safe RPC framework with OpenAPI support
+- [Zod](https://zod.dev/) — TypeScript-first schema validation library
+- [Drizzle ORM](https://orm.drizzle.team/) — TypeScript ORM for SQL databases
+
+### Development and Quality Tools
+
+- [Biome](https://biomejs.dev/) — Fast code formatter and linter
+- [Vitest](https://vitest.dev/) — Vite-based unit testing framework
+- [Storybook](https://storybook.js.org/) — Tool for developing UI components in isolation
+
+## Setup
 
 ### Prerequisites
 
-- [Devbox](https://www.jetify.com/devbox/docs/installing-devbox/)
+- [Git](https://git-scm.com/)
+- [Devbox](https://www.jetify.com/docs/devbox/installing-devbox/)
 
-Node.js, pnpm, and cocogitto versions are declared in `devbox.json` and provided through Devbox:
+> [!NOTE]
+> The Devbox CLI does not run directly on Windows. Use WSL2 or a Dev Container instead.
 
-- **Node.js** 26.4.0
-- **pnpm** 11.1.2
-- **cocogitto** 7.0.0
+### 1. Clone the Repository
 
-Verify the toolchain:
+```bash
+git clone <repository-url>
+cd <cloned-directory>
+```
 
-    devbox run -- node --version
-    devbox run -- pnpm --version
-    devbox run -- cog --version
+### 2. Prepare the Development Environment
 
-### Devbox environment
+#### Using the Devbox CLI
 
-This project uses Devbox as its canonical toolchain. `devbox.json` pins Node.js, pnpm, and cocogitto, and the lock file is committed so every environment resolves the same package versions.
+Install the dependencies.
 
-Run commands through Devbox:
+```bash
+devbox run -- pnpm install --frozen-lockfile
+```
 
-    devbox run -- node --version
-    devbox run -- pnpm install
-    devbox run -- pnpm dev
+To use an interactive shell, run `devbox shell`, then run `pnpm <script>` directly.
 
-The Devbox shell provides the exact same Node.js, pnpm, and cocogitto versions on macOS and Linux.
+#### Using VS Code with the Devbox Extension (macOS / Linux)
 
-If you prefer an interactive shell, run `devbox shell` and then use `pnpm <script>` directly.
+1. Install the [Devbox extension](https://marketplace.visualstudio.com/items?itemName=jetpack-io.devbox).
+2. Run **Devbox: Reopen in Devbox shell environment** from the Command Palette.
+3. After VS Code restarts, run the following command in the integrated terminal.
 
-### Dev Container (VS Code)
+```bash
+pnpm install --frozen-lockfile
+```
 
-The repository includes a project-provided Devbox-based Dev Container configuration for macOS and Linux hosts.
+The Devbox extension also starts a Devbox shell automatically when you open a new integrated terminal in a project that contains `devbox.json`.
 
-1. Open the project in VS Code and run **Dev Containers: Reopen in Container** (or **Rebuild Container** if the container already exists).
-   The container uses the official `jetpackio/devbox` image, runs as the non-root `devbox` user, and installs dependencies automatically via `pnpm devcontainer:setup`.
+#### Using VS Code with a Dev Container
 
-2. Inside the container, the same commands work:
+1. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+2. Run **Dev Containers: Reopen in Container** from the Command Palette.
+3. The Devbox-based development environment will be set up automatically.
 
-       pnpm dev
-       pnpm storybook
+#### Using VS Code on Windows
 
-#### Automatic Devbox activation
+In a WSL2 terminal with Devbox installed, navigate to the project directory and run the following commands.
 
-Newly opened or rebuilt Dev Container terminals automatically load the Devbox toolchain.
-`configure-bash.sh` maintains a single guarded block in `/home/devbox/.bashrc` that evaluates `devbox shellenv` once per interactive shell and sets `NEXT_STARTER_DEVBOX_ENV_LOADED` to avoid duplicate work.
+```bash
+devbox shell
+code .
+```
 
-No manual `devbox shell` is required for normal terminal use.
+For details, see the [Devbox guide for configuring VS Code](https://www.jetify.com/docs/devbox/ide-configuration/vscode).
 
-#### Fallback commands
+#### Using an Editor Other Than VS Code
 
-If you prefer not to rely on the automatic `.bashrc` hook, or if you are outside the Dev Container, use:
+See the [Devbox IDE configuration guide](https://www.jetify.com/docs/devbox/ide-configuration) for editor-specific instructions.
 
-    devbox shell
-    # or
-    devbox run -- <command>
+### 3. Configure Environment Variables
 
-For example:
+```bash
+cp .env.local.example .env.local
+```
 
-    devbox run -- pnpm dev
-    devbox run -- pnpm check
-
-#### Forwarded ports
-
-Only the following ports are forwarded by default:
-
-- `3000` for the Next.js development server
-- `6006` for Storybook
-
-#### Rebuilding
-
-After changing `devbox.json`, rebuild the container with **Dev Containers: Rebuild Container**. Commit the regenerated `devbox.lock` together with the config change.
-
-### 1. Clone and Install
-
-    git clone <repository-url>
-    cd <cloned-directory>
-    devbox run -- pnpm install --frozen-lockfile
-
-### 2. Commit Convention Setup
-
-This project uses [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
-Commit messages are validated locally via [cocogitto](https://docs.cocogitto.io/).
-
-Run the setup script to install the commit-msg hook:
-
-    devbox run -- bash scripts/setup.sh
-
-This needs to be done once after cloning. The hook validates commit messages against `cog.toml` at commit time, so no re-run is needed when `cog.toml` is updated. Re-run only if you need to reinstall the hook (e.g., after deleting it).
-
-### 3. Environment Variables
-
-    cp .env.local.example .env.local
-
-Edit `.env.local` and set the following variables:
+Edit `.env.local` and configure the following environment variables.
 
 | Variable | Required | Description |
 |---|---|---|
 | `GOOGLE_CLIENT_ID` | Yes | Google OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | Yes | Google OAuth client secret |
-| `BETTER_AUTH_SECRET` | Yes | A random 32-byte hex string. Generate with: `openssl rand -hex 32` |
-| `BETTER_AUTH_URL` | No | Base URL of the app. Default: `http://localhost:3000` |
-| `DATABASE_URL` | No | Database connection string. Default: `file:local.db` (SQLite) |
+| `BETTER_AUTH_SECRET` | Yes | A random 32-byte hexadecimal string. Generate one with `openssl rand -hex 32` |
+| `BETTER_AUTH_URL` | No | Application base URL. Defaults to `http://localhost:3000` |
+| `DATABASE_URL` | No | Database connection string. Defaults to `file:local.db` (SQLite) |
 
-### 4. Database Setup
+Set the authorized redirect URI for Google OAuth to `http://localhost:3000/api/auth/callback/google`.
 
-    devbox run -- pnpm db:push
+### 4. Set Up the Database
+
+```bash
+pnpm db:push
+# Via the Devbox CLI
+devbox run -- pnpm db:push
+```
 
 This creates `local.db` with all required tables.
 
-For version-controlled migrations, use:
+To use version-controlled migrations instead, run the following commands.
 
-    devbox run -- pnpm db:generate
-    devbox run -- pnpm db:migrate
+```bash
+pnpm db:generate
+pnpm db:migrate
+# Via the Devbox CLI
+devbox run -- pnpm db:generate
+devbox run -- pnpm db:migrate
+```
 
-### 5. Start Development
+### 5. Start the Development Server
 
-    devbox run -- pnpm dev
+```bash
+pnpm dev
+# Via the Devbox CLI
+devbox run -- pnpm dev
+```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Storybook for UI component development:
+## Storybook
 
-    devbox run -- pnpm storybook
+Start Storybook to develop UI components.
 
-Open [http://localhost:6006](http://localhost:6006).
+```bash
+pnpm storybook
+# Via the Devbox CLI
+devbox run -- pnpm storybook
+```
+
+Open [http://localhost:6006](http://localhost:6006) in your browser.
