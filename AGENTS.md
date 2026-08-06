@@ -1,6 +1,16 @@
 <!-- BEGIN:common-agent-rules -->
 - KISS, DRY, YAGNI を守る
 - コロケーションを重視すること
+
+## Devbox 実行ポリシー
+
+- AI Agent がこのプロジェクト内でプロセスを実行する場合は、必ず Devbox を経由すること。非対話実行は `devbox run -- <command>`、継続的な対話操作は `devbox shell` を使用すること。
+- ホスト環境から `pnpm`、`node`、`npx`、`git`、`cog`、データベース CLI、リポジトリ内スクリプトなどを直接実行しないこと。読み取り専用コマンドも対象とすること。
+- `devbox run` の外側でパイプ、リダイレクト、コマンド連結、変数展開、コマンド置換を行わないこと。必要なシェル構文は Devbox 内側で評価させること。
+- ファイルの読み書きに特化した Agent ツールはプロセス実行ではないため対象外とする。ただし、編集後のフォーマット、生成、検証などのコマンドは必ず Devbox 経由で実行すること。
+- Codex は `.codex/hooks.json`、Claude Code は `.claude/settings.json`、OpenCode は `opencode.json` と `.opencode/plugins/require-devbox.js` のガードにより、Devbox を経由しないシェル実行を拒否する。
+- これらのガードを無効化、迂回、または弱体化しないこと。拒否された場合は別ツールやガード対象外の起動方法へ逃げず、Devbox 経由のコマンドとして再実行すること。
+
 - docs/以下にドキュメントがあるので必要なときに参照すること。ファイル名で判断すること。追加するときはファイル名をわかりやすくつけること。
 - ADRを書くこと（docs/adr以下に）。設計上の重要な判断をしたときは必ず書くこと。書くべきか迷う場合はユーザーに確認すること。append-onlyで、過去の内容は変更しないこと。
 - フロントエンドはテストコードを書かないでください。
@@ -12,20 +22,20 @@
 
 ## 許可スクリプト
 スクリプトはpackage.jsonに書かれているものだけ使用してください。これにより、プロジェクトの一貫性が保たれ、予期しない問題を防ぐことができます。
-- `pnpm dev`: 開発サーバーを起動します。
-- `pnpm build`: プロジェクトをビルドします。
-- `pnpm start`: ビルドされたプロジェクトを起動します。
-- `pnpm check`: コードの品質を確認します。(Biome)
-- `pnpm format`: コードをフォーマットします。(Biome)
-- `pnpm typecheck`: 型チェックを実行します。
-- `pnpm test:run`: テストを実行します。(vitest)
-- `pnpm build-storybook`: Storybookをビルドします。
-- `pnpm db:generate`: Drizzle ORMのコードを生成します。
-- `pnpm db:migrate`: データベースのマイグレーションを実行します。
-- `pnpm db:push`: データベースのマイグレーションを適用します。
-- `pnpm db:reset`: データベースをリセットします。
-- `pnpm verify:frontend`: フロントエンドコードの変更に対して、型チェックとコード品質の確認を実行します。
-- `pnpm verify`: アプリケーションコードの変更に対して、型チェック、テストの実行、コード品質の確認を実行します。
+- `devbox run -- pnpm dev`: 開発サーバーを起動します。
+- `devbox run -- pnpm build`: プロジェクトをビルドします。
+- `devbox run -- pnpm start`: ビルドされたプロジェクトを起動します。
+- `devbox run -- pnpm check`: コードの品質を確認します。(Biome)
+- `devbox run -- pnpm format`: コードをフォーマットします。(Biome)
+- `devbox run -- pnpm typecheck`: 型チェックを実行します。
+- `devbox run -- pnpm test:run`: テストを実行します。(vitest)
+- `devbox run -- pnpm build-storybook`: Storybookをビルドします。
+- `devbox run -- pnpm db:generate`: Drizzle ORMのコードを生成します。
+- `devbox run -- pnpm db:migrate`: データベースのマイグレーションを実行します。
+- `devbox run -- pnpm db:push`: データベースのマイグレーションを適用します。
+- `devbox run -- pnpm db:reset`: データベースをリセットします。
+- `devbox run -- pnpm verify:frontend`: フロントエンドコードの変更に対して、型チェックとコード品質の確認を実行します。
+- `devbox run -- pnpm verify`: アプリケーションコードの変更に対して、型チェック、テストの実行、コード品質の確認を実行します。
 <!-- END:common-agent-rules -->
 
 <!-- BEGIN:design-agent-rules -->
