@@ -4,12 +4,13 @@
 
 ## Devbox 実行ポリシー
 
-- AI Agent がこのプロジェクト内でプロセスを実行する場合は、必ず Devbox を経由すること。非対話実行は `devbox run -- <command>`、継続的な対話操作は `devbox shell` を使用すること。
-- ホスト環境から `pnpm`、`node`、`npx`、`git`、`cog`、データベース CLI、リポジトリ内スクリプトなどを直接実行しないこと。読み取り専用コマンドも対象とすること。
-- `devbox run` の外側でパイプ、リダイレクト、コマンド連結、変数展開、コマンド置換を行わないこと。必要なシェル構文は Devbox 内側で評価させること。
+- Devbox を、チームメンバー、AI Agent、CI が共有する標準の開発環境（canonical development environment）とする。`devbox.json` と `devbox.lock` で固定された Node.js、pnpm、その他の開発ツールを使用し、実行環境の差異を防ぐことが目的である。
+- AI Agent が通常の開発コマンドを実行するときは、必ず Devbox を経由すること。非対話実行は `devbox run -- <command>`、継続的な対話操作は `devbox shell` を使用すること。
+- ホスト環境から `node`、`pnpm`、`npx`、`cog`、データベース CLI、リポジトリ内スクリプトなどの開発ツールを直接実行しないこと。`node --version` などのバージョン確認も Devbox 経由で実行すること。
+- パイプ、リダイレクト、コマンド連結、変数展開、コマンド置換などを Devbox の外側で評価させないこと。複雑なシェル構文が必要な場合は、`devbox run -- sh -lc 'pnpm typecheck; pnpm check'` のように Devbox 内側のシェルへ渡すこと。
 - ファイルの読み書きに特化した Agent ツールはプロセス実行ではないため対象外とする。ただし、編集後のフォーマット、生成、検証などのコマンドは必ず Devbox 経由で実行すること。
-- Codex は `.codex/hooks.json`、Claude Code は `.claude/settings.json`、OpenCode は `opencode.json` と `.opencode/plugins/require-devbox.js` のガードにより、Devbox を経由しないシェル実行を拒否する。
-- これらのガードを無効化、迂回、または弱体化しないこと。拒否された場合は別ツールやガード対象外の起動方法へ逃げず、Devbox 経由のコマンドとして再実行すること。
+- Codex は `.codex/hooks.json`、Claude Code は `.claude/settings.json`、OpenCode は `opencode.json` と `.opencode/plugins/require-devbox.js` のワークフローガードにより、通常の開発コマンドを Devbox 経由の実行経路へ統一する。拒否された場合は、Devbox 経由のコマンドとして再実行すること。
+- これらのガードは OS レベルの sandbox や security boundary ではなく、絶対パスで指定された Host OS 上の任意のバイナリまで実行不能にするものではない。ガードを無効化または弱体化せず、開発ツールチェーンを統一するためのルールとして使用すること。
 
 - docs/以下にドキュメントがあるので必要なときに参照すること。ファイル名で判断すること。追加するときはファイル名をわかりやすくつけること。
 - ADRを書くこと（docs/adr以下に）。設計上の重要な判断をしたときは必ず書くこと。書くべきか迷う場合はユーザーに確認すること。append-onlyで、過去の内容は変更しないこと。
