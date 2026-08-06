@@ -1,5 +1,5 @@
 /**
- * OpenCode のシェルツールを実行前に検査し、Devbox 外のコマンドを拒否する。
+ * OpenCode の開発コマンドを、標準の Devbox 実行経路へ統一する。
  * 共通のコマンド判定を再利用し、OpenCode 固有のフック形式だけを変換する。
  */
 import { isDevboxCommand } from "../../.codex/hooks/require-devbox.mjs";
@@ -46,12 +46,12 @@ async function enforceDevboxCommand(input, output) {
   }
 
   throw new Error(
-    "Devbox guard: use `devbox run -- <command>` or `devbox shell`. Host-side shell composition and expansion are blocked.",
+    "Devbox guard: development commands must use the project toolchain through `devbox run -- <command>` or `devbox shell`. Keep shell composition and expansion inside Devbox.",
   );
 }
 
 /**
- * OpenCode の `tool.execute.before` に Devbox 強制ガードを登録する。
+ * OpenCode の `tool.execute.before` に Devbox 実行経路ガードを登録する。
  *
  * @returns {Promise<{ "tool.execute.before": typeof enforceDevboxCommand }>} OpenCode のフック定義。
  */

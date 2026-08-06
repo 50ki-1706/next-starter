@@ -1,6 +1,6 @@
 /**
- * Codex と Claude Code の PreToolUse 入力を検査し、Devbox 外でのシェル実行を拒否する。
- * ホスト側のシェル構文による迂回も、コマンドが実行される前に遮断する。
+ * Codex と Claude Code の開発コマンドを、標準の Devbox 実行経路へ統一する。
+ * Devbox の外側でシェル構文が評価されるコマンドは、実行前に拒否する。
  */
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
@@ -45,7 +45,7 @@ function getBashCommand(input) {
 }
 
 /**
- * コマンド全体が Devbox を最外層として安全に呼び出しているか判定する。
+ * コマンド全体が Devbox を最外層の実行経路としているか判定する。
  *
  * @param {string} command - Codex が実行しようとしているシェルコマンド。
  * @returns {boolean} `devbox run` または `devbox shell` の単一呼び出しなら true。
@@ -127,7 +127,7 @@ export function evaluatePreToolUse(input) {
       hookEventName: "PreToolUse",
       permissionDecision: "deny",
       permissionDecisionReason:
-        "Devbox guard: run the command as `devbox run -- <command>` or from `devbox shell`. Host-side shell composition and expansion are blocked.",
+        "Devbox guard: development commands must use the project toolchain through `devbox run -- <command>` or `devbox shell`. Keep shell composition and expansion inside Devbox.",
     },
   };
 }

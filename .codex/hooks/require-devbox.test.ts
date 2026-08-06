@@ -1,6 +1,6 @@
 /**
- * Devbox 強制フックの許可ケースと拒否ケースを検証する。
- * ホスト側のシェル構文を使った迂回が成立しないことも保証する。
+ * AI Agent の開発コマンドが標準の Devbox 実行経路を使うことを検証する。
+ * Devbox の外側でシェル構文が評価されるコマンドも拒否する。
  */
 import { describe, expect, it } from "vitest";
 import claudeSettings from "../../.claude/settings.json";
@@ -25,25 +25,37 @@ function createPreToolUseInput(command: unknown): Record<string, unknown> {
 describe("isDevboxCommand", () => {
   it.each([
     "devbox run -- pnpm verify",
+    "devbox run -- node --version",
     "devbox shell",
     "  devbox run -- git status  ",
     "devbox run -- sh -lc 'pnpm typecheck; pnpm check'",
     'devbox run -- sh -lc \'printf "%s\\n" "$PATH"\'',
-  ])("Devbox を最外層にした単一コマンドを許可する: %s", (command) => {
+  ])("Devbox を最外層の実行経路とする開発コマンドを許可する: %s", (command) => {
     expect(isDevboxCommand(command)).toBe(true);
+  });
+
+  it("Devbox 内側で絶対パス指定されたコマンド内容は制限しない", () => {
+    expect(isDevboxCommand("devbox run -- /usr/bin/node --version")).toBe(true);
   });
 
   it.each([
     "pnpm verify",
+    "node --version",
     "devbox run pnpm verify",
     "devbox-helper run -- pnpm verify",
+  ])("Devbox を経由しない開発コマンドを拒否する: %s", (command) => {
+    expect(isDevboxCommand(command)).toBe(false);
+  });
+
+  it.each([
+    "pnpm verify; devbox run -- pnpm check",
     "devbox run -- pnpm verify; pnpm build",
     "devbox run -- pnpm verify | tee verify.log",
     "devbox run -- pnpm verify > verify.log",
     'devbox run -- sh -lc "echo $PATH"',
     "devbox run -- pnpm $(printf verify)",
     "devbox run -- pnpm *",
-  ])("Devbox 外で評価される要素を拒否する: %s", (command) => {
+  ])("Devbox の外側で評価されるシェル構文を拒否する: %s", (command) => {
     expect(isDevboxCommand(command)).toBe(false);
   });
 });
@@ -65,7 +77,7 @@ describe("evaluatePreToolUse", () => {
     });
   });
 
-  it("不正なフック入力は fail-closed で拒否する", () => {
+  it("コマンドを特定できないフック入力を拒否する", () => {
     expect(evaluatePreToolUse(createPreToolUseInput(null))).not.toBeNull();
   });
 });

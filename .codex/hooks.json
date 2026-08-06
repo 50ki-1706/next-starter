@@ -1,5 +1,5 @@
 {
-  "description": "Require Codex shell commands to execute through Devbox.",
+  "description": "Require Codex development commands to use the project Devbox environment.",
   "hooks": {
     "PreToolUse": [
       {
