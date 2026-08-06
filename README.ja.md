@@ -19,7 +19,7 @@ Next.js を使用したフルスタックアプリケーションのスタータ
 
 ### フレームワーク・ライブラリ
 
-- [Next.js 16](https://nextjs.org/) — フルスタックアプリケーションを構築する React フレームワーク
+- [Next.js 16.3](https://nextjs.org/) — フルスタックアプリケーションを構築する React フレームワーク
 - [Better Auth](https://better-auth.com) — TypeScript 向けの認証ライブラリ
 - [Tailwind CSS](https://tailwindcss.com/) — ユーティリティファーストの CSS フレームワーク
 - [oRPC](https://orpc.dev) — 型安全で OpenAPI に対応した RPC フレームワーク
@@ -28,6 +28,7 @@ Next.js を使用したフルスタックアプリケーションのスタータ
 
 ### 開発支援・品質保証
 
+- [TypeScript 7](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/) — ネイティブ実装の TypeScript コンパイラと型チェッカー
 - [Biome](https://biomejs.dev/) — 高速なコードフォーマッター兼リンター
 - [Vitest](https://vitest.dev/) — Vite ベースのユニットテストフレームワーク
 - [Storybook](https://storybook.js.org/) — UI コンポーネントを単独で開発するためのツール
@@ -141,6 +142,21 @@ devbox run -- pnpm dev
 ```
 
 [http://localhost:3000](http://localhost:3000) をブラウザで開いてください。
+
+## TypeScript 7
+
+このテンプレートでは、ネイティブ実装の TypeScript 7 コンパイラを使用します。Next.js 16.3 は本番ビルド時にプロジェクト内の `tsc` CLI をデフォルトで実行するため、追加設定は必要ありません。
+
+型チェックだけを実行する場合は、次のコマンドを使用します。
+
+```bash
+pnpm typecheck
+```
+
+Next.js の CLI 連携は実験的な機能で、TypeScript 標準の `tsc` 診断を出力します。`tsconfig.json` で選択されたプロジェクト全体が検査対象となり、設定に含まれるテストファイルや Next.js の生成型も検査されます。
+
+> [!NOTE]
+> TypeScript 7.0 は安定版の JavaScript Compiler API を提供していません。TypeScript をプログラムから読み込むツールを追加する場合は、TypeScript 7 への対応状況を確認してください。このテンプレートの Storybook 構成は、`pnpm build-storybook` で動作を確認しています。
 
 ## Storybook
 

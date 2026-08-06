@@ -19,7 +19,7 @@ A starter template for building full-stack applications with Next.js. It include
 
 ### Frameworks and Libraries
 
-- [Next.js 16](https://nextjs.org/) — React framework for building full-stack applications
+- [Next.js 16.3](https://nextjs.org/) — React framework for building full-stack applications
 - [Better Auth](https://better-auth.com) — Authentication library for TypeScript
 - [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
 - [oRPC](https://orpc.dev) — Type-safe RPC framework with OpenAPI support
@@ -28,6 +28,7 @@ A starter template for building full-stack applications with Next.js. It include
 
 ### Development and Quality Tools
 
+- [TypeScript 7](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/) — Native TypeScript compiler and type checker
 - [Biome](https://biomejs.dev/) — Fast code formatter and linter
 - [Vitest](https://vitest.dev/) — Vite-based unit testing framework
 - [Storybook](https://storybook.js.org/) — Tool for developing UI components in isolation
@@ -141,6 +142,21 @@ devbox run -- pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## TypeScript 7
+
+This template uses the native TypeScript 7 compiler. Next.js 16.3 runs the project-local `tsc` CLI during production builds by default, so no additional configuration is required.
+
+Run type checking independently with the following command.
+
+```bash
+pnpm typecheck
+```
+
+The Next.js CLI integration is experimental and reports native `tsc` diagnostics. It checks the complete project selected by `tsconfig.json`, including test files and generated Next.js types when they are included.
+
+> [!NOTE]
+> TypeScript 7.0 does not provide a stable JavaScript Compiler API. Before adding tools that import TypeScript programmatically, confirm their TypeScript 7 compatibility. The Storybook configuration included in this template is verified by `pnpm build-storybook`.
 
 ## Storybook
 
