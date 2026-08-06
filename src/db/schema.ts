@@ -53,18 +53,3 @@ export const verification = sqliteTable("verification", {
   createdAt: integer("created_at", { mode: "timestamp" }),
   updatedAt: integer("updated_at", { mode: "timestamp" }),
 });
-
-export const counters = sqliteTable("counter", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id")
-    .notNull()
-    .unique()
-    .references(() => user.id, { onDelete: "cascade" }),
-  count: integer("count").notNull().default(0),
-});
-
-export const posts = sqliteTable("post", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-});
