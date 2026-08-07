@@ -154,10 +154,10 @@ update stuff
 上記は type が不足しているため、cocogitto によって却下されます。
 
 ```text
-Feat: add feature
+feat(api: add feature
 ```
 
-上記は type が大文字で始まっているため、大文字小文字を区別する cocogitto によって却下されます。
+上記は scope の閉じ括弧がないため、cocogitto によって却下されます。
 
 ```text
 feat:
