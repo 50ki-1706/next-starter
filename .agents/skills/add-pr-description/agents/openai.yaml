@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Description"
+  short_description: "Generate PR descriptions following the repository's PR template"
+  default_prompt: "Use $add-pr-description to generate a PR description for my current changes."
